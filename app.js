@@ -1,6 +1,7 @@
 const express = require("express")
 const axios = require('axios')
 const cors = require("cors")
+const { json } = require("express")
 
 const app = express()
 
@@ -49,6 +50,22 @@ app.get("/nextLaunch", (req, res) => {
         }
         details: "string"
     */
+})
+
+app.get('/pastLaunches/:limit', (req, res) => {
+    let limit; 
+    if(req.params.limit && Number.parseInt(req.params.limit)) {
+        limit = parseInt(req.params.limit);
+    } else {
+        limit = 5;
+    }
+    console.log("LIMIT IS", limit);
+    axios.get(`https://api.spacexdata.com/v3/launches/past?id=true&limit=${limit}&sort=flight_number&order=desc`)
+        .then(response => {
+            const payload = response.data;
+            res.status(200).json(payload);
+        })
+        .catch(err => res.status(500).json({"message": "INTERNAL SERVER ERROR"}));
 })
 
 
