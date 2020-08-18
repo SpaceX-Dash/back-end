@@ -1,12 +1,13 @@
 const express = require("express")
 const axios = require('axios')
+const cors = require("cors")
 
 const app = express()
 
 
 
 app.use(express.json())
-
+app.use(cors())
 
 app.get("/", (req, res) => {
     res.status(200).json({message: "Heeeeeeeeeello"})
@@ -53,8 +54,8 @@ app.get("/nextLaunch", (req, res) => {
 
 
 
-const port = 3000
+const port = 3001
 app.listen(port, () => {
-    console.log("Listening on port 3000");
+    console.log("Listening on port 3001");
 })
 
